@@ -223,24 +223,24 @@ $text_direction   = is_rtl() ? 'rtl' : 'ltr';
 			body,table,td,p,a,li,blockquote{
 				-webkit-text-size-adjust:none !important;
 			}
-		}	
+		}
 		@media only screen and (max-width: 480px){
 			body{
 				width:100% !important;
 				min-width:100% !important;
 			}
-		}	
+		}
 		@media only screen and (max-width: 680px){
 			#bodyCell{
 				padding:20px 20px !important;
 			}
-		}	
+		}
 		@media only screen and (max-width: 480px){
 			.mcnTextContentContainer{
 				max-width:100% !important;
 				width:100% !important;
 			}
-		}		
+		}
 	</style>
 </head>
 <body style="height: 100%;margin: 0;padding: 0;width: 100%;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background-color: <?php echo $background_color; ?>;">
@@ -256,10 +256,10 @@ $text_direction   = is_rtl() ? 'rtl' : 'ltr';
 					<td align="center" valign="top" width="600" style="width:600px;">
 					<![endif]-->
 					<table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateContainer" style="border-collapse: collapse;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;border: 0;max-width: 600px !important;">
-						<?php 
-						if ( !empty( $header_image ) ) {
+						<?php
+						if ( ! empty( $header_image ) ) {
 							echo '<tr><td valign="top" align="center" id="templateHeader" style="padding-bottom:20px;text-align:center;">';
-								echo '<img src="' . esc_url( $header_image ) . '" alt="' . get_bloginfo( 'name' ) . '" />';
+								echo '<img src="' . esc_url( $header_image ) . '" alt="' . esc_attr( get_bloginfo( 'name' ) ) . '" />';
 							echo '</td></tr>';
 						}
 						?>

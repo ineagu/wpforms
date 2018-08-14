@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Functionality related to the admin TinyMCE editor.
  *
@@ -7,7 +8,7 @@
  * @since      1.0.0
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2016, WPForms LLC
-*/
+ */
 class WPForms_Admin_Editor {
 
 	/**
@@ -16,36 +17,37 @@ class WPForms_Admin_Editor {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-
 		add_action( 'media_buttons', array( $this, 'media_button' ), 15 );
 	}
 
 	/**
 	 * Allow easy shortcode insertion via a custom media button.
-	 * 
+	 *
 	 * @since 1.0.0
+	 *
 	 * @param string $editor_id
-	 * @return
 	 */
-	function media_button( $editor_id ) {
+	public function media_button( $editor_id ) {
 
 		// Provide the ability to conditionally disable the button, so it can be
 		// disabled for custom fields or front-end use such as bbPress. We default
 		// to only showing within the admin panel.
-		if ( !apply_filters( 'wpforms_display_media_button', is_admin(), $editor_id ) )
+		if ( ! apply_filters( 'wpforms_display_media_button', is_admin(), $editor_id ) ) {
 			return;
+		}
 
-		// Setup the icon - currently using a dashicon
-		$icon = '<span class="wp-media-buttons-icon wpforms-menu-icon" style="font-size:16px;margin-top:-2px;"></span>';
+		// Setup the icon - currently using a dashicon.
+		$icon = '<span class="wp-media-buttons-icon wpforms-menu-icon" style="font-size:16px;margin-top:-2px;"><svg width="18" height="18" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M643 911v128h-252v-128h252zm0-255v127h-252v-127h252zm758 511v128h-341v-128h341zm0-256v128h-672v-128h672zm0-255v127h-672v-127h672zm135 860v-1240q0-8-6-14t-14-6h-32l-378 256-210-171-210 171-378-256h-32q-8 0-14 6t-6 14v1240q0 8 6 14t14 6h1240q8 0 14-6t6-14zm-855-1110l185-150h-406zm430 0l221-150h-406zm553-130v1240q0 62-43 105t-105 43h-1240q-62 0-105-43t-43-105v-1240q0-62 43-105t105-43h1240q62 0 105 43t43 105z" fill="#82878c"/></svg></span>';
 
-		printf( '<a href="#" class="button wpforms-insert-form-button" data-editor="%s" title="%s">%s %s</a>',
+		printf(
+			'<a href="#" class="button wpforms-insert-form-button" data-editor="%s" title="%s">%s %s</a>',
 			esc_attr( $editor_id ),
 			esc_attr__( 'Add Form', 'wpforms' ),
 			$icon,
 			__( 'Add Form', 'wpforms' )
 		);
 
-		// If we have made it this far then load the JS
+		// If we have made it this far then load the JS.
 		wp_enqueue_script( 'wpforms-editor', WPFORMS_PLUGIN_URL . 'assets/js/admin-editor.js', array( 'jquery' ), WPFORMS_VERSION, true );
 
 		add_action( 'admin_footer', array( $this, 'shortcode_modal' ) );
@@ -60,57 +62,85 @@ class WPForms_Admin_Editor {
 	 *
 	 * @since 1.0.0
 	 */
-	function shortcode_modal() {
+	public function shortcode_modal() {
 		?>
 		<div id="wpforms-modal-backdrop" style="display: none"></div>
 		<div id="wpforms-modal-wrap" style="display: none">
 			<form id="wpforms-modal" tabindex="-1">
-			<div id="wpforms-modal-title">
-				<?php _e( 'Insert Form', 'wpforms' ); ?>	
-				<button type="button" id="wpforms-modal-close"><span class="screen-reader-text"><?php _e( 'Close', 'wpforms' ); ?></span></button>
-		 	</div>
-			<div id="wpforms-modal-inner">		
-				<div id="wpforms-modal-options">
-						<?php 
+				<div id="wpforms-modal-title">
+					<?php esc_html_e( 'Insert Form', 'wpforms' ); ?>
+					<button type="button" id="wpforms-modal-close"><span class="screen-reader-text"><?php esc_html_e( 'Close', 'wpforms' ); ?></span></button>
+				</div>
+				<div id="wpforms-modal-inner">
+
+					<div id="wpforms-modal-options">
+						<?php
+						echo '<p id="wpforms-modal-notice">';
+						printf(
+							wp_kses(
+								/* translators: %s - WPForms documenation link. */
+								__( 'Heads up! Don\'t forget to test your form. <a href="%s" target="_blank" rel="noopener noreferrer">Check out our complete guide</a>!', 'wpforms' ),
+								array(
+									'a' => array(
+										'href'   => array(),
+										'rel'    => array(),
+										'target' => array(),
+									),
+								)
+							),
+							'https://wpforms.com/docs/how-to-properly-test-your-wordpress-forms-before-launching-checklist/'
+						);
+						echo '</p>';
 						$args  = apply_filters( 'wpforms_modal_select', array() );
 						$forms = wpforms()->form->get( '', $args );
-						if ( !empty( $forms ) ) {
-							printf( '<p><label for="wpforms-modal-select-form">%s</label></p>', __( 'Select a form below to insert', 'wpforms' ) );
+						if ( ! empty( $forms ) ) {
+							printf( '<p><label for="wpforms-modal-select-form">%s</label></p>', esc_html__( 'Select a form below to insert', 'wpforms' ) );
 							echo '<select id="wpforms-modal-select-form">';
 							foreach ( $forms as $form ) {
 								printf( '<option value="%d">%s</option>', $form->ID, esc_html( $form->post_title ) );
 							}
 							echo '</select><br>';
-							printf( '<p class="wpforms-modal-inline"><input type="checkbox" id="wpforms-modal-checkbox-title"><label for="wpforms-modal-checkbox-title">%s</label></p>', __( 'Show form title', 'wpforms' ) );
-							printf( '<p class="wpforms-modal-inline"><input type="checkbox" id="wpforms-modal-checkbox-description"><label for="wpforms-modal-checkbox-description">%s</label></p>', __( 'Show form description', 'wpforms' ) );
+							printf( '<p class="wpforms-modal-inline"><input type="checkbox" id="wpforms-modal-checkbox-title"><label for="wpforms-modal-checkbox-title">%s</label></p>', esc_html__( 'Show form name', 'wpforms' ) );
+							printf( '<p class="wpforms-modal-inline"><input type="checkbox" id="wpforms-modal-checkbox-description"><label for="wpforms-modal-checkbox-description">%s</label></p>', esc_html__( 'Show form description', 'wpforms' ) );
 						} else {
 							echo '<p>';
-							printf( __( 'Whoops, you haven\'t created a form yet. Want to <a href="%s">give it a go</a>?', 'wpforms' ), admin_url( 'admin.php?page=wpforms-builder' ) );
+							printf(
+								wp_kses(
+									/* translators: %s - WPForms Builder page. */
+									__( 'Whoops, you haven\'t created a form yet. Want to <a href="%s">give it a go</a>?', 'wpforms' ),
+									array(
+										'a' => array(
+											'href' => array(),
+										),
+									)
+								),
+								admin_url( 'admin.php?page=wpforms-builder' )
+							);
 							echo '</p>';
 						}
 						?>
+					</div>
 				</div>
-			</div>
-			<div class="submitbox">
-				<div id="wpforms-modal-cancel">
-					<a class="submitdelete deletion" href="#"><?php _e( 'Cancel', 'wpforms' ); ?></a>
+				<div class="submitbox">
+					<div id="wpforms-modal-cancel">
+						<a class="submitdelete deletion" href="#"><?php esc_html_e( 'Cancel', 'wpforms' ); ?></a>
+					</div>
+					<?php if ( ! empty( $forms ) ) : ?>
+						<div id="wpforms-modal-update">
+							<button class="button button-primary" id="wpforms-modal-submit"><?php esc_html_e( 'Add Form', 'wpforms' ); ?></button>
+						</div>
+					<?php endif; ?>
 				</div>
-				<?php if ( !empty( $forms ) ) : ?>
-				<div id="wpforms-modal-update">
-					<button class="button button-primary" id="wpforms-modal-submit"><?php _e( 'Add Form', 'wpforms' ); ?></button>
-				</div>
-				<?php endif; ?>
-			</div>
 			</form>
 		</div>
-		<style style="text/css">
+		<style type="text/css">
 			#wpforms-modal-wrap {
 				display: none;
 				background-color: #fff;
-				-webkit-box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
-				box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
+				-webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+				box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 				width: 500px;
-				height: 220px;
+				height: 285px;
 				overflow: hidden;
 				margin-left: -250px;
 				margin-top: -125px;
@@ -121,6 +151,7 @@ class WPForms_Admin_Editor {
 				-webkit-transition: height 0.2s, margin-top 0.2s;
 				transition: height 0.2s, margin-top 0.2s;
 			}
+
 			#wpforms-modal-backdrop {
 				display: none;
 				position: fixed;
@@ -134,10 +165,12 @@ class WPForms_Admin_Editor {
 				filter: alpha(opacity=70);
 				z-index: 100100;
 			}
+
 			#wpforms-modal {
 				position: relative;
 				height: 100%;
 			}
+
 			#wpforms-modal-title {
 				background: #fcfcfc;
 				border-bottom: 1px solid #dfdfdf;
@@ -150,6 +183,7 @@ class WPForms_Admin_Editor {
 				right: 0;
 				left: 0;
 			}
+
 			#wpforms-modal-close {
 				color: #666;
 				padding: 0;
@@ -163,6 +197,7 @@ class WPForms_Admin_Editor {
 				border: none;
 				cursor: pointer;
 			}
+
 			#wpforms-modal-close:before {
 				font: normal 20px/36px 'dashicons';
 				vertical-align: top;
@@ -173,22 +208,24 @@ class WPForms_Admin_Editor {
 				height: 36px;
 				content: '\f158';
 			}
+
 			#wpforms-modal-close:hover,
 			#wpforms-modal-close:focus {
 				color: #2ea2cc;
 			}
+
 			#wpforms-modal-close:focus {
 				outline: none;
-				-webkit-box-shadow:
-					0 0 0 1px #5b9dd9,
-					0 0 2px 1px rgba(30, 140, 190, .8);
-				box-shadow:
-					0 0 0 1px #5b9dd9,
-					0 0 2px 1px rgba(30, 140, 190, .8);
+				-webkit-box-shadow: 0 0 0 1px #5b9dd9,
+				0 0 2px 1px rgba(30, 140, 190, .8);
+				box-shadow: 0 0 0 1px #5b9dd9,
+				0 0 2px 1px rgba(30, 140, 190, .8);
 			}
-			#wpforms-modal-inner{
+
+			#wpforms-modal-inner {
 				padding: 0 16px 50px;
 			}
+
 			#wpforms-modal-search-toggle:after {
 				display: inline-block;
 				font: normal 20px/1 'dashicons';
@@ -198,18 +235,29 @@ class WPForms_Admin_Editor {
 				-moz-osx-font-smoothing: grayscale;
 				content: '\f140';
 			}
+
+			#wpforms-modal-notice {
+				background-color: #d9edf7;
+				border: 1px solid #bce8f1;
+				color: #31708f;
+				padding: 10px;
+			}
+
 			#wpforms-modal #wpforms-modal-options {
 				padding: 8px 0 12px;
 			}
+
 			#wpforms-modal #wpforms-modal-options .wpforms-modal-inline {
-				display:inline-block;
+				display: inline-block;
 				margin: 0;
 				padding: 0 20px 0 0;
 			}
+
 			#wpforms-modal-select-form {
 				margin-bottom: 1em;
 				max-width: 100%;
 			}
+
 			#wpforms-modal .submitbox {
 				padding: 8px 16px;
 				background: #fcfcfc;
@@ -219,30 +267,37 @@ class WPForms_Admin_Editor {
 				left: 0;
 				right: 0;
 			}
+
 			#wpforms-modal-cancel {
 				line-height: 25px;
 				float: left;
 			}
+
 			#wpforms-modal-update {
 				line-height: 23px;
 				float: right;
 			}
+
 			#wpforms-modal-submit {
 				float: right;
 				margin-bottom: 0;
 			}
+
 			@media screen and ( max-width: 782px ) {
 				#wpforms-modal-wrap {
 					height: 280px;
 					margin-top: -140px;
 				}
+
 				#wpforms-modal-inner {
 					padding: 0 16px 60px;
 				}
+
 				#wpforms-modal-cancel {
 					line-height: 32px;
 				}
 			}
+
 			@media screen and ( max-width: 520px ) {
 				#wpforms-modal-wrap {
 					width: auto;
@@ -252,12 +307,14 @@ class WPForms_Admin_Editor {
 					max-width: 500px;
 				}
 			}
+
 			@media screen and ( max-height: 520px ) {
 				#wpforms-modal-wrap {
 					-webkit-transition: none;
 					transition: none;
 				}
 			}
+
 			@media screen and ( max-height: 290px ) {
 				#wpforms-modal-wrap {
 					height: auto;
@@ -265,6 +322,7 @@ class WPForms_Admin_Editor {
 					top: 10px;
 					bottom: 10px;
 				}
+
 				#wpforms-modal-inner {
 					overflow: auto;
 					height: -webkit-calc(100% - 92px);
@@ -277,4 +335,5 @@ class WPForms_Admin_Editor {
 	}
 
 }
+
 new WPForms_Admin_Editor;
