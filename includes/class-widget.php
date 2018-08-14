@@ -1,4 +1,5 @@
 <?php
+
 /**
  * WPForms widget.
  *
@@ -7,7 +8,7 @@
  * @since      1.0.2
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2016, WPForms LLC
-*/
+ */
 class WPForms_Widget extends WP_Widget {
 
 	/**
@@ -25,59 +26,58 @@ class WPForms_Widget extends WP_Widget {
 	 */
 	function __construct() {
 
-		// widget defaults
+		// Widget defaults.
 		$this->defaults = array(
 			'title'      => '',
 			'form_id'    => '',
 			'show_title' => false,
 			'show_desc'  => false,
 		);
-		
-		// Widget Slug
+
+		// Widget Slug.
 		$widget_slug = 'wpforms-widget';
 
-		// widget basics
+		// Widget basics.
 		$widget_ops = array(
 			'classname'   => $widget_slug,
-			'description' => 'Display a form.'
+			'description' => esc_html_x( 'Display a form.', 'Widget', 'wpforms' ),
 		);
 
-		// widget controls
+		// Widget controls.
 		$control_ops = array(
 			'id_base' => $widget_slug,
 		);
 
 		// load widget
-		parent::__construct( $widget_slug, 'WPForms', $widget_ops, $control_ops );		
+		parent::__construct( $widget_slug, esc_html_x( 'WPForms', 'Widget', 'wpforms' ), $widget_ops, $control_ops );
 	}
 
 	/**
 	 * Outputs the HTML for this widget.
 	 *
 	 * @since 1.0.2
-	 * @param array $args An array of standard parameters for widgets in this theme 
-	 * @param array $instance An array of settings for this widget instance 
+	 *
+	 * @param array $args An array of standard parameters for widgets in this theme.
+	 * @param array $instance An array of settings for this widget instance.
 	 */
 	function widget( $args, $instance ) {
 
-		extract( $args );
-
-		// Merge with defaults
+		// Merge with defaults.
 		$instance = wp_parse_args( (array) $instance, $this->defaults );
 
-		echo $before_widget;
+		echo $args['before_widget'];
 
-			// Title
-			if ( !empty( $instance['title'] ) ) { 
-				echo $before_title . apply_filters( 'widget_title' , $instance['title'] ) . $after_title;
-			}
+		// Title
+		if ( ! empty( $instance['title'] ) ) {
+			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+		}
 
-			// Form
-			if ( !empty( $instance['form_id'] ) ) {
-				wpforms()->frontend->output( absint( $instance['form_id'] ), $instance['show_title'], $instance['show_desc'] );
-			}
+		// Form
+		if ( ! empty( $instance['form_id'] ) ) {
+			wpforms()->frontend->output( absint( $instance['form_id'] ), $instance['show_title'], $instance['show_desc'] );
+		}
 
-		echo $after_widget;
+		echo $args['after_widget'];
 	}
 
 	/**
@@ -85,13 +85,15 @@ class WPForms_Widget extends WP_Widget {
 	 * where any validation should be dealt with.
 	 *
 	 * @since 1.0.2
-	 * @param array $new_instance An array of new settings as submitted by the admin
-	 * @param array $old_instance An array of the previous settings 
+	 *
+	 * @param array $new_instance An array of new settings as submitted by the admin.
+	 * @param array $old_instance An array of the previous settings.
+	 *
 	 * @return array The validated and (if necessary) amended settings
 	 */
 	function update( $new_instance, $old_instance ) {
 
-		$new_instance['title']      = strip_tags( $new_instance['title'] );
+		$new_instance['title']      = wp_strip_all_tags( $new_instance['title'] );
 		$new_instance['form_id']    = absint( $new_instance['form_id'] );
 		$new_instance['show_title'] = isset( $new_instance['show_title'] ) ? '1' : false;
 		$new_instance['show_desc']  = isset( $new_instance['show_desc'] ) ? '1' : false;
@@ -103,40 +105,62 @@ class WPForms_Widget extends WP_Widget {
 	 * Displays the form for this widget on the Widgets page of the WP Admin area.
 	 *
 	 * @since 1.0.2
-	 * @param array $instance An array of the current settings for this widget
+	 *
+	 * @param array $instance An array of the current settings for this widget.
+	 *
+	 * @return void
 	 */
 	function form( $instance ) {
 
-		// Merge with defaults
+		// Merge with defaults.
 		$instance = wp_parse_args( (array) $instance, $this->defaults );
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>">Title:</label>
-			<input type="text" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo esc_attr( $instance['title'] ); ?>" class="widefat" />
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>">
+				<?php esc_html( _ex( 'Title:', 'Widget', 'wpforms' ) ); ?>
+			</label>
+			<input type="text"
+					id="<?php echo $this->get_field_id( 'title' ); ?>"
+					name="<?php echo $this->get_field_name( 'title' ); ?>"
+					value="<?php echo esc_attr( $instance['title'] ); ?>" class="widefat"/>
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'form_id' ); ?>">Form:</label>
+			<label for="<?php echo $this->get_field_id( 'form_id' ); ?>">
+				<?php esc_html( _ex( 'Form:', 'Widget', 'wpforms' ) ); ?>
+			</label>
 			<select id="<?php echo $this->get_field_id( 'form_id' ); ?>" name="<?php echo $this->get_field_name( 'form_id' ); ?>" class="widefat">
 				<?php
 				$forms = wpforms()->form->get();
-				if ( !empty( $forms ) ) {
+				if ( ! empty( $forms ) ) {
+					echo '<option value="" selected disabled>' . esc_html_x( 'Select your form', 'Widget', 'wpforms' ) . '</option>';
+
 					foreach ( $forms as $form ) {
-						printf( '<option value="%d" %s>%s</option>', $form->ID, selected( $instance['form_id'], $form->ID, false ), esc_html( $form->post_title ) );
-					}		
+						echo '<option value="' . esc_attr( $form->ID ) . '" ' . selected( $instance['form_id'], $form->ID, false ) . '>' . esc_html( $form->post_title ) . '</option>';
+					}
 				} else {
-					printf( '<option value="">%s</option>', __( 'No forms', 'wpforms' ) );
+					echo '<option value="">' . esc_html_x( 'No forms', 'Widget', 'wpforms' ) . '</option>';
 				}
 				?>
 			</select>
 		</p>
 		<p>
-			<input type="checkbox" id="<?php echo $this->get_field_id( 'show_title' ); ?>" name="<?php echo $this->get_field_name( 'show_title' ); ?>" <?php checked( '1', $instance['show_title'] ); ?>>
-			<label for="<?php echo $this->get_field_id( 'show_title' ); ?>"><?php _e( 'Display form title', 'wpforms' ); ?></label>
+			<input type="checkbox" id="<?php echo $this->get_field_id( 'show_title' ); ?>"
+					name="<?php echo $this->get_field_name( 'show_title' ); ?>" <?php checked( '1', $instance['show_title'] ); ?>>
+			<label for="<?php echo $this->get_field_id( 'show_title' ); ?>"><?php esc_html( _ex( 'Display form name', 'Widget', 'wpforms' ) ); ?></label>
 			<br>
-			<input type="checkbox" id="<?php echo $this->get_field_id( 'show_desc' ); ?>" name="<?php echo $this->get_field_name( 'show_desc' ); ?>" <?php checked( '1', $instance['show_desc'] ); ?>>
-			<label for="<?php echo $this->get_field_id( 'show_desc' ); ?>"><?php _e( 'Display form description', 'wpforms' ); ?></label>
+			<input type="checkbox" id="<?php echo $this->get_field_id( 'show_desc' ); ?>"
+					name="<?php echo $this->get_field_name( 'show_desc' ); ?>" <?php checked( '1', $instance['show_desc'] ); ?>>
+			<label for="<?php echo $this->get_field_id( 'show_desc' ); ?>"><?php esc_html( _ex( 'Display form description', 'Widget', 'wpforms' ) ); ?></label>
 		</p>
 		<?php
 	}
 }
-add_action( 'widgets_init', create_function( '', "register_widget('WPForms_Widget');" ) );
+
+/**
+ * Register WPForms plugin widgets.
+ */
+function wpforms_register_widgets() {
+	register_widget( 'WPForms_Widget' );
+}
+
+add_action( 'widgets_init', 'wpforms_register_widgets' );

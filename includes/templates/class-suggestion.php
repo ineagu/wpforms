@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Suggestion form template.
  *
@@ -7,7 +8,7 @@
  * @since      1.1.3.2
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2016, WPForms LLC
-*/
+ */
 class WPForms_Template_Suggestion extends WPForms_Template {
 
 	/**
@@ -17,75 +18,77 @@ class WPForms_Template_Suggestion extends WPForms_Template {
 	 */
 	public function init() {
 
-		$this->name        = __( 'Suggestion Form', 'wpforms' );
+		$this->name        = esc_html__( 'Suggestion Form', 'wpforms' );
 		$this->slug        = 'suggestion';
-		$this->description = __( 'Ask your users for suggestions with this simple form template. You can add and remove fields as needed.', 'wpforms' );
+		$this->description = esc_html__( 'Ask your users for suggestions with this simple form template. You can add and remove fields as needed.', 'wpforms' );
 		$this->includes    = '';
 		$this->icon        = '';
 		$this->modal       = '';
+		$this->core        = true;
 		$this->data        = array(
 			'field_id' => '5',
 			'fields'   => array(
-				'0'  => array(
-					'id'          => '0',
-					'type'        => 'name',
-					'label'       => __( 'Name', 'wpforms' ),
-					'required'    => '1',
-					'size'        => 'medium',
+				'0' => array(
+					'id'       => '0',
+					'type'     => 'name',
+					'label'    => esc_html__( 'Name', 'wpforms' ),
+					'required' => '1',
+					'size'     => 'medium',
 				),
-				'1'  => array(
+				'1' => array(
 					'id'          => '1',
 					'type'        => 'email',
-					'label'       => __( 'E-mail', 'wpforms' ),
-					'description' => __( 'Please enter your email, so we can follow up with you.', 'wpforms' ),
+					'label'       => esc_html__( 'Email', 'wpforms' ),
+					'description' => esc_html__( 'Please enter your email, so we can follow up with you.', 'wpforms' ),
 					'required'    => '1',
 					'size'        => 'medium',
 				),
-				'2'  => array(
-					'id'          => '2',
-					'type'        => 'radio',
-					'label'       => __( 'Which department do you have a suggestion for?', 'wpforms' ),
-					'choices'     => array(
+				'2' => array(
+					'id'       => '2',
+					'type'     => 'radio',
+					'label'    => esc_html__( 'Which department do you have a suggestion for?', 'wpforms' ),
+					'choices'  => array(
 						'1' => array(
-							'label' => __( 'Sales', 'wpforms' ),
+							'label' => esc_html__( 'Sales', 'wpforms' ),
 						),
 						'2' => array(
-							'label' => __( 'Customer Support', 'wpforms' ),
+							'label' => esc_html__( 'Customer Support', 'wpforms' ),
 						),
 						'3' => array(
-							'label' => __( 'Product Development', 'wpforms' ),
+							'label' => esc_html__( 'Product Development', 'wpforms' ),
 						),
 						'4' => array(
-							'label' => __( 'Other', 'wpforms' ),
+							'label' => esc_html__( 'Other', 'wpforms' ),
 						),
 					),
-					'required'    => '1',
+					'required' => '1',
 				),
-				'3'  => array(
-					'id'          => '3',
-					'type'        => 'text',
-					'label'       => __( 'Subject', 'wpforms' ),
-					'required'    => '1',
-					'size'        => 'medium',
+				'3' => array(
+					'id'       => '3',
+					'type'     => 'text',
+					'label'    => esc_html__( 'Subject', 'wpforms' ),
+					'required' => '1',
+					'size'     => 'medium',
 				),
-				'4'  => array(
-					'id'          => '4',
-					'type'        => 'textarea',
-					'label'       => __( 'Message', 'wpforms' ),
-					'required'    => '1',
-					'size'        => 'medium',
+				'4' => array(
+					'id'       => '4',
+					'type'     => 'textarea',
+					'label'    => esc_html__( 'Message', 'wpforms' ),
+					'required' => '1',
+					'size'     => 'medium',
 				),
 			),
 			'settings' => array(
-				'notifications' => array(
+				'notifications'               => array(
 					'1' => array(
+						'replyto'        => '{field_id="1"}',
 						'sender_name'    => '{field_id="0"}',
-						'sender_address' => '{field_id="1"}',
-					),	
+						'sender_address' => '{admin_email}',
+					),
 				),
 				'honeypot'                    => '1',
 				'confirmation_message_scroll' => '1',
-				'submit_text_processing'      => __( 'Sending...', 'wpforms' ),
+				'submit_text_processing'      => esc_html__( 'Sending...', 'wpforms' ),
 			),
 			'meta'     => array(
 				'template' => $this->slug,
@@ -93,4 +96,5 @@ class WPForms_Template_Suggestion extends WPForms_Template {
 		);
 	}
 }
+
 new WPForms_Template_Suggestion;

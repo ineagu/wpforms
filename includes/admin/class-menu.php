@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Register menu elements and do other global tasks.
  *
@@ -7,7 +8,7 @@
  * @since      1.0.0
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2016, WPForms LLC
-*/
+ */
 class WPForms_Admin_Menu {
 
 	/**
@@ -17,12 +18,11 @@ class WPForms_Admin_Menu {
 	 */
 	public function __construct() {
 
-		// Let's make some menus
-		add_action( 'admin_menu',            array( $this, 'register_menus' ), 9    );
-		add_action( 'admin_enqueue_scripts', array( $this, 'menu_icon'      )       );
+		// Let's make some menus.
+		add_action( 'admin_menu', array( $this, 'register_menus' ), 9 );
 
-		// Footer text
-		add_filter( 'admin_footer_text',     array( $this, 'admin_footer'   ), 1, 2 );
+		// Plugins page settings link.
+		add_filter( 'plugin_action_links_' . plugin_basename( WPFORMS_PLUGIN_DIR . 'wpforms.php' ), array( $this, 'settings_link' ) );
 	}
 
 	/**
@@ -30,46 +30,46 @@ class WPForms_Admin_Menu {
 	 *
 	 * @since 1.0.0
 	 */
-	function register_menus() {
+	public function register_menus() {
 
-		$menu_cap = apply_filters( 'wpforms_manage_cap', 'manage_options' );
+		$menu_cap = wpforms_get_capability_manage_options();
 
-		// Default Forms top level menu item
+		// Default Forms top level menu item.
 		add_menu_page(
-			__( 'WPForms', 'wpforms' ), 
-			__( 'WPForms', 'wpforms' ),
+			esc_html__( 'WPForms', 'wpforms' ),
+			esc_html__( 'WPForms', 'wpforms' ),
 			$menu_cap,
 			'wpforms-overview',
 			array( $this, 'admin_page' ),
-			'dashicons-feedback',
+			'data:image/svg+xml;base64,' . base64_encode( '<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#9ea3a8" d="M643 911v128h-252v-128h252zm0-255v127h-252v-127h252zm758 511v128h-341v-128h341zm0-256v128h-672v-128h672zm0-255v127h-672v-127h672zm135 860v-1240q0-8-6-14t-14-6h-32l-378 256-210-171-210 171-378-256h-32q-8 0-14 6t-6 14v1240q0 8 6 14t14 6h1240q8 0 14-6t6-14zm-855-1110l185-150h-406zm430 0l221-150h-406zm553-130v1240q0 62-43 105t-105 43h-1240q-62 0-105-43t-43-105v-1240q0-62 43-105t105-43h1240q62 0 105 43t43 105z"/></svg>' ),
 			apply_filters( 'wpforms_menu_position', '57.7' )
 		);
 
-		// All Forms sub menu item
+		// All Forms sub menu item.
 		add_submenu_page(
 			'wpforms-overview',
-			__( 'WPForms', 'wpforms' ),
-			__( 'All Forms', 'wpforms' ),
+			esc_html__( 'WPForms', 'wpforms' ),
+			esc_html__( 'All Forms', 'wpforms' ),
 			$menu_cap,
 			'wpforms-overview',
 			array( $this, 'admin_page' )
 		);
 
-		// Add New sub menu item
+		// Add New sub menu item.
 		add_submenu_page(
 			'wpforms-overview',
-			__( 'WPForms Builder', 'wpforms' ),
-			__( 'Add New', 'wpforms' ),
+			esc_html__( 'WPForms Builder', 'wpforms' ),
+			esc_html__( 'Add New', 'wpforms' ),
 			$menu_cap,
 			'wpforms-builder',
 			array( $this, 'admin_page' )
 		);
 
-		// Entries sub menu item
+		// Entries sub menu item.
 		add_submenu_page(
 			'wpforms-overview',
-			__( 'Form Entries', 'wpforms' ),
-			__( 'Entries', 'wpforms' ),
+			esc_html__( 'Form Entries', 'wpforms' ),
+			esc_html__( 'Entries', 'wpforms' ),
 			$menu_cap,
 			'wpforms-entries',
 			array( $this, 'admin_page' )
@@ -77,63 +77,83 @@ class WPForms_Admin_Menu {
 
 		do_action( 'wpform_admin_menu', $this );
 
-		// Settings sub menu item
+		// Settings sub menu item.
 		add_submenu_page(
 			'wpforms-overview',
-			__( 'WPForms Settings', 'wpforms' ),
-			__( 'Settings', 'wpforms' ),
+			esc_html__( 'WPForms Settings', 'wpforms' ),
+			esc_html__( 'Settings', 'wpforms' ),
 			$menu_cap,
 			'wpforms-settings',
 			array( $this, 'admin_page' )
 		);
 
-		// Addons submenu page
+		// Tools sub menu item.
 		add_submenu_page(
 			'wpforms-overview',
-			__( 'WPForms Addons', 'wpforms' ),
-			'<span style="color:#f18500">' . __( 'Addons', 'wpforms' ) . '<span>',
+			esc_html__( 'WPForms Tools', 'wpforms' ),
+			esc_html__( 'Tools', 'wpforms' ),
+			$menu_cap,
+			'wpforms-tools',
+			array( $this, 'admin_page' )
+		);
+
+		// Hidden placeholder paged used for misc content.
+		add_submenu_page(
+			'wpforms-settings',
+			esc_html__( 'WPForms', 'wpforms' ),
+			esc_html__( 'Info', 'wpforms' ),
+			$menu_cap,
+			'wpforms-page',
+			array( $this, 'admin_page' )
+		);
+
+		// Addons submenu page.
+		add_submenu_page(
+			'wpforms-overview',
+			esc_html__( 'WPForms Addons', 'wpforms' ),
+			'<span style="color:#f18500">' . esc_html__( 'Addons', 'wpforms' ) . '<span>',
 			$menu_cap,
 			'wpforms-addons',
 			array( $this, 'admin_page' )
 		);
 	}
 
+	/**
+	 * Wrapper for the hook to render our custom settings pages.
+	 *
+	 * @since 1.0.0
+	 */
 	public function admin_page() {
-
 		do_action( 'wpforms_admin_page' );
 	}
 
 	/**
-	 * Load CSS for custom menu icon.
+	 * Add settings link to the Plugins page.
 	 *
-	 * @since 1.0.0
+	 * @since 1.3.9
+	 *
+	 * @param array $links Plugin row links.
+	 *
+	 * @return array $links
 	 */
-	public function menu_icon() {
+	public function settings_link( $links ) {
 
-		wp_enqueue_style( 
-			'wpforms-menu',
-			WPFORMS_PLUGIN_URL . 'assets/css/admin-menu.css', 
-			null,
-			WPFORMS_VERSION
+		$admin_link = add_query_arg(
+			array(
+				'page' => 'wpforms-settings',
+			),
+			admin_url( 'admin.php' )
 		);
-	}
 
-	/**
-	 * When user is on a WPForms related admin page, display footer text
-	 * that graciously asks them to rate us.
-	 *
-	 * @since 1.2.1
-	 * @param string $text
-	 * @return string
-	 */
-	public function admin_footer( $text ) {
+		$setting_link = sprintf(
+			'<a href="%s">%s</a>',
+			$admin_link,
+			esc_html__( 'Settings', 'wpforms' )
+		);
 
-		global $current_screen;
-		if ( !empty( $current_screen->id ) && strpos( $current_screen->id, 'wpforms' ) !== false ) {
-			$url  = 'http://wordpress.org/support/view/plugin-reviews/wpforms-lite?filter=5';
-			$text = sprintf( __( 'Please rate <strong>WPForms</strong> <a href="%s" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> on <a href="%s" target="_blank">WordPress.org</a> to help us spread the word. Thank you from the WPForms team!', 'wpforms' ), $url, $url );
-		}
-		return $text;
+		array_unshift( $links, $setting_link );
+
+		return $links;
 	}
 }
-$wpforms_admin_menu = new WPForms_Admin_Menu;
+new WPForms_Admin_Menu();

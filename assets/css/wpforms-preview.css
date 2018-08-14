@@ -1,5 +1,5 @@
 /* ==========================================================================
-   WPForms Preview
+   WPForms Print Preview
    ========================================================================== */
 
 /*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
@@ -25,23 +25,6 @@ body {
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 1.625;
-}
-
-.wpforms-preview {
-	border-top: 1px solid #eee;
-	background-color: #fff;
-	box-shadow: 0 1px 2px #ccc;
-	margin: 30px auto 20px auto;
-	overflow: auto;
-	padding: 30px;
-	max-width: 780px;
-}
-
-.error {
-	color: #a94442;
-	background-color: #f2dede;
-	padding: 15px;
-	border: 1px solid #ebcccc;
 }
 
 .site {
@@ -75,13 +58,20 @@ a:hover, a:active, a:focus {
 	color: #0096dd;
 }
 
-/* Print Preview
---------------------------------------------- */
+#print {
+	border-top: 1px solid #eee;
+	background-color: #fff;
+	box-shadow: 0 1px 2px #ccc;
+	margin: 30px auto 20px auto;
+	overflow: auto;
+	padding: 30px;
+	max-width: 780px;
+}
 
 #print h1 {
 	font-size: 24px;
 	font-weight: 600;
-	margin: 0 0 26px 0;
+	margin: 0 0 16px 0;
 }
 
 #print h1 span {
@@ -100,26 +90,99 @@ a:hover, a:active, a:focus {
 	margin-left: 10px;
 }
 
+#print .actions {
+	text-align: right;
+	margin: 0 0 26px 0;
+	font-size: 11px;
+	colo
+}
+
 #print .fields {
 	border: 1px solid #eee;
 }
 
-#print .wpforms-entry-field-name {
+#print .field.empty {
+	display: none;
+}
+
+#print .field-name,
+#print .note-byline {
 	font-weight: 600;
 	background: #ebf3fb;
 	padding: 8px 12px;
 	margin: 0;
 }
 
-#print .wpforms-entry-field-value {
+#print .field-value,
+#print .note-text {
 	background: #fff;
 	padding: 8px 12px;
 	margin: 0;
 }
 
+#print .notes-head {
+	margin: 26px 0 16px 0;
+	display: none;
+}
+
+#print .notes {
+	border: 1px solid #eee;
+	display: none;
+}
+
+#print .notes p {
+	margin: 0 0 10px 0;
+}
+
+#print .notes p:last-of-type {
+	margin: 0;
+}
+
+/* Compact view */
+
+.compact #print {
+	font-size: 12px;
+	line-height: 1.4;
+	padding: 15px;
+	margin-bottom: 10px;
+}
+
+.compact #print h1 {
+	font-size: 16px !important;
+}
+
+.compact #print .field {
+	border-top: 1px solid #eee;
+	overflow: hidden;
+	clear: both;
+}
+
+.compact #print .fields {
+	border-top: 0;
+}
+
+.compact #print .field-name {
+	width: 30%;
+	float: left;
+}
+
+.compact #print .field-value {
+	width: 70%;
+	float: right;
+}
+
+.compact .site {
+	font-size: 9px;
+}
+
+.compact #print .notes-head {
+	font-size: 16px;
+	margin: 16px 0 10px 0;
+}
+
 @media print {
 
-	.wpforms-preview {
+	#print {
 		border: none;
 		box-shadow: none;
 		padding: 30px 0 15px;
@@ -131,28 +194,50 @@ a:hover, a:active, a:focus {
 	#print h1 {
 		text-align: center;
 	}
-	
-	#print .buttons {
+
+	#print .buttons,
+	#print .actions {
 		display: none;
 	}
 
-	#print .fields {
+	#print .fields,
+	#print .notes {
 		border: 1px solid #ccc;
 	}
 
-	#print .wpforms-entry-field {
+	#print .field,
+	#print .note {
 		border-top: 1px solid #ccc;
+		border-color: #ccc !important;
 	}
 
-	#print .wpforms-entry-field:first-of-type {
+	#print .field:first-of-type,
+	#print .note:first-of-type {
 		border: none;
 	}
 
-	#print .wpforms-entry-field-name {
+	#print .field-name,
+	#print .note-byline {
 		padding: 8px 12px 0 8px;
 	}
 
-	#print .wpforms-entry-field-value {
+	#print .field-value,
+	#print .note-text {
 		padding-top: 6px;
+	}
+
+	/* Compact view */
+
+	.compact #print {
+		padding: 15px;
+		font-size: 11px;
+	}
+
+	.compact #print .fields {
+		border-top: none;
+	}
+
+	.compact #print .field:first-of-type {
+		border-top: 1px solid #ccc;
 	}
 }

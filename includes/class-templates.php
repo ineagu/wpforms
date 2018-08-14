@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Pre-configured packaged templates.
  *
@@ -7,7 +8,7 @@
  * @since      1.0.0
  * @license    GPL-2.0+
  * @copyright  Copyright (c) 2016, WPForms LLC
-*/
+ */
 class WPForms_Templates {
 
 	/**
@@ -52,7 +53,9 @@ class WPForms_Templates {
 		) );
 
 		foreach ( $templates as $template ) {
-			
+
+			$template = sanitize_file_name( $template );
+
 			if ( file_exists( WPFORMS_PLUGIN_DIR . 'includes/templates/class-' . $template . '.php' ) ) {
 				require_once WPFORMS_PLUGIN_DIR . 'includes/templates/class-' . $template . '.php';
 			} elseif ( file_exists( WPFORMS_PLUGIN_DIR . 'pro/includes/templates/class-' . $template . '.php' ) ) {
@@ -61,4 +64,5 @@ class WPForms_Templates {
 		}
 	}
 }
+
 new WPForms_Templates;

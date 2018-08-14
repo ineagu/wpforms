@@ -10,17 +10,18 @@
 			$( document.body ).removeClass( 'modal-open' );
 		};
 		// Open modal when media button is clicked
-		$('.wpforms-insert-form-button').click(function(event) {
+		$(document).on('click', '.wpforms-insert-form-button', function(event) {
 			event.preventDefault();
 			$('#wpforms-modal-backdrop, #wpforms-modal-wrap').css('display','block');
 			$( document.body ).addClass( 'modal-open' );
 		});
 		// Close modal on close or cancel links
-		$('#wpforms-modal-close, #wpforms-modal-cancel a').click(function(event) {
+		$(document).on('click', '#wpforms-modal-close, #wpforms-modal-cancel a', function(event) {
+			event.preventDefault();
 			wpformsModalClose();
 		});
 		// Insert shortcode into TinyMCE
-		$('#wpforms-modal-submit').click(function(event) {
+		$(document).on('click', '#wpforms-modal-submit', function(event) {
 			event.preventDefault();
 			var shortcode;
 			shortcode = '[wpforms id="' + $('#wpforms-modal-select-form').val() + '"';

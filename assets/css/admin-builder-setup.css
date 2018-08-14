@@ -11,6 +11,7 @@
 
 #wpforms-panel-setup  .wpforms-panel-full-content .wpforms-panel-content {
 	padding: 0;
+	padding-bottom: 30px;
 }
 
 #wpforms-setup-form-name {
@@ -47,44 +48,79 @@
 	border-color: red;
 }
 
+#wpforms-setup-template-search {
+	box-shadow: none;
+	display: block;
+	width: 100%;
+	border: 1px solid #d6d6d6;
+	font-size: 16px;
+	padding: 10px 10px 10px 35px;
+}
+
+.wpforms-setup-template-search-wrap {
+	padding: 0 31px 0 29px;
+	position: relative;
+}
+
+.wpforms-setup-template-search-wrap .fa {
+	color: #ccc;
+	position: absolute;
+	top: 9px;
+	left: 40px;
+	font-size: 20px;
+}
+
 .wpforms-setup-title {
 	font-size: 24px;
 	padding: 40px 30px 2px 30px;
 }
 
+.wpforms-setup-title.additional {
+	padding-top: 12px;
+}
+
+.wpforms-setup-title .count {
+	color: #ccc;
+}
+
 .wpforms-setup-desc {
-	padding: 2px 30px 30px 30px;
+	padding: 15px 30px;
 	color: #666;
 	font-size: 16px;
+	margin: 0;
+}
+
+.wpforms-setup-desc.core {
+	padding-bottom: 0;
 }
 
 .wpforms-setup-templates {
-	padding: 0 30px 30px 30px;
+	padding: 0 15px 0 15px;
+	margin-top: 30px;
 }
 
 .wpforms-setup-templates .wpforms-template {
 	float: left;
-	margin-left: 3.0612244897959%;
-	width: 31.292517006803%;
-	border: 1px solid #d6d6d6;
-	padding: 20px;
-	margin-bottom: 30px;
-	position: relative;
+	width: 33.333333%;
+	padding: 0 15px;
 }
 
-.wpforms-setup-templates .wpforms-template.selected {
+.wpforms-setup-templates .wpforms-template-inner {
+	border: 1px solid #d6d6d6;
+	padding: 20px;
+	position: relative;
+	margin-bottom: 30px;
+}
+
+.wpforms-setup-templates .wpforms-template.selected .wpforms-template-inner {
 	background-color: #fff4ec;
 	border-color: #e27730;
-}
- 
-.wpforms-setup-templates .wpforms-template.first {
-	clear: both;
-	margin-left: 0;
 }
 
 .wpforms-setup-templates .wpforms-template-name {
 	font-size: 18px;
-	margin: 0 0 10px 0;
+	line-height: 1.3;
+	margin: 0;
 }
 
 .wpforms-setup-templates .wpforms-template-name .selected {
@@ -100,8 +136,12 @@
 	margin: 0 0 0 6px;
 }
 
+.wpforms-setup-templates .wpforms-template-details {
+	margin: 10px 0 0;
+}
+
 .wpforms-setup-templates .wpforms-template-details p {
-	font-size: 15px;
+	font-size: 14px;
 	color: #888;
 	line-height: 1.5;
 	margin: 0;
@@ -150,9 +190,14 @@
 	padding: 10px;
 	text-decoration: none;
 	position: relative;
-}	
+}
 
 .wpforms-setup-templates .wpforms-template-select:hover {
 	background-color: #b85a1b;
 	text-decoration: none;
+}
+
+#wpforms-setup-templates-additional {
+	max-height: 450px;
+	overflow: auto;
 }

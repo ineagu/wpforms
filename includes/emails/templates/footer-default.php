@@ -34,13 +34,14 @@ $background_color = wpforms_setting( 'email-background-color', '#e9eaec' );
 													<tbody>
 														<tr>
 															<td valign="top" class="mcnTextContent" style="padding-top: 9px;padding-right: 18px;padding-bottom: 9px;padding-left: 18px;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;word-break: break-word;color: #aaa;font-family: Helvetica;font-size: 12px;line-height: 150%;text-align: center;">
-															
+
 																<!-- Footer content -->
-																<?php 
-																$footer = sprintf( __( 'Sent from <a href="%s" style="color:#bbbbbb;">%s</a>', 'wpforms' ), esc_url( home_url() ), wp_specialchars_decode( get_bloginfo( 'name' ) ) );
+																<?php
+																/* translators: %s - link to a site. */
+																$footer = sprintf( esc_html__( 'Sent from %s', 'wpforms' ), '<a href="' . esc_url( home_url() ) . '" style="color:#bbbbbb;">' . wp_specialchars_decode( get_bloginfo( 'name' ) ) . '</a>' );
 																echo apply_filters( 'wpforms_email_footer_text', $footer );
 																?>
-															
+
 															</td>
 														</tr>
 													</tbody>
