@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Welcome / Getting Started page
+   ========================================================================== */
+
+.about-wrap .wpforms-badge {
+	position: absolute;
+	top: 0;
+	right: 0;
+	color: #999;
+	font-size: 14px;
+	text-align: center;
+	margin: 5px 0 0;
+	width: 150px;
+}
+
+.about-wrap .wpforms-badge .version {
+	display: block;
+	margin: 0 auto;
+	margin: 5px auto 0 auto;
+}
+
+.about-wrap .feature-section p {
+	font-size: 15px;
+}
+
+.about-wrap .feature-section.two-col .col {
+	vertical-align: top;
+}
+
+.about-wrap .wpforms-features-button {
+	font-size: 16px;
+	height: auto;
+	padding: 8px 25px;
+	margin-top: 20px;
+}
+
+.about-wrap .feature-section .feature-video,
+.about-wrap .feature-section img {
+	max-width: 400px;
+}

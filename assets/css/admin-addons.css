@@ -1,0 +1,156 @@
+/* ==========================================================================
+   Addons Styles
+   ========================================================================== */
+
+#wpforms-addons .wpforms-clear:before {
+	content: " ";
+	display: table;
+}
+
+#wpforms-addons .wpforms-clear:after {
+	clear: both;
+	content: " ";
+	display: table;	
+}
+
+#wpforms-addons .intro {
+	margin-bottom: 30px;
+}
+
+.wpforms-addons-basic-message { 
+	border: 1px solid #ddd;
+	padding: 20px;
+}
+
+.wpforms-addons-basic-message h5 {
+	font-size: 16px;
+	font-weight: 700;
+	margin: 0 0 15px 0;
+}
+
+.wpforms-addons-basic-message p {
+	margin: 0;
+}
+
+.wpforms-addons-unlock {
+	margin: 35px 0 25px;
+}
+
+.wpforms-addons-unlock h4 {
+	font-size: 23px;
+	font-weight: 400;
+	margin: 0 0 6px 0;
+	line-height: 29px;
+}
+
+.wpforms-addons-unlock p {
+	margin: 0;
+}
+
+.wpforms-addon-item {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	width: 49%;
+	float: left;
+	clear: right;
+	min-height: 118px;
+	margin: 0 0 18px 0;
+	position: relative;
+}
+
+.wpforms-addon-item.wpforms-second {
+	float: right;
+}
+
+.wpforms-addon-image {
+	float: left;
+	height: 92px;
+	width: 92px;
+	border: 1px solid #ddd;
+	margin: 12px 0 0 12px;
+}
+
+.wpforms-addon-image img {
+	display: block;
+	margin: 0 auto;
+	max-width: 100%;
+}
+
+.wpforms-addon-text {
+	margin: 0 200px 0 126px;
+	padding: 22px 0;
+}
+
+.wpforms-addon-text h4 {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 700;
+	margin: 0 0 8px 0;
+}
+
+.wpforms-addon-text p {
+	margin: 0;
+}
+
+.wpforms-addon-action {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 180px;
+	height: 100%;
+	text-align: center;
+	border-left: 1px solid #ddd;
+}
+
+.wpforms-addon-action a,
+.wpforms-addon-action button {
+	font-size: 14px;
+	color: #fff;
+	background-color: #0085ba;
+	border: 1px solid #006d98;
+	text-decoration: none;
+	width: 130px;
+	margin: 40px auto 0 auto;
+	display: block;
+	border-radius: 5px;
+	padding: 10px 0;
+	cursor: pointer;
+}
+
+.wpforms-addon-action a:hover,
+.wpforms-addon-action button:hover {
+	background-color: #006d98;
+}
+
+.wpforms-addon-status-active .wpforms-addon-action {
+	background-color: #edfaff;
+}
+
+.wpforms-addon-status-inactive .wpforms-addon-action {
+	background-color: #f5f6f7;
+}
+
+.wpforms-error {
+	color: #b94a48;
+	background-color: #f2dede;
+	padding: 8px;
+}
+
+.wpforms-success {
+	color: #468847;
+	background-color: #dff0d8;
+	padding: 8px;
+}
+
+/*
+@media only screen and (max-width: 1240px) {
+*/
+	.wpforms-addon-item,
+	.wpforms-addon-item.wpforms-second {
+		max-width: 800px;
+		width: 100%;
+		float: none;
+	}
+/*
+}
+*/

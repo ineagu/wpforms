@@ -1,0 +1,40 @@
+/* ==========================================================================
+   Admin Form Builder - Settings panel
+   ========================================================================== */
+
+#wpforms-panel-settings {
+}
+
+#wpforms-panel-settings .wpforms-panel-sidebar {
+/**/
+}
+
+#wpforms-panel-settings .wpforms-panel-content .wpforms-notification {
+	border: 1px solid #d3d3d3;
+	margin: 0 0 20px 0;
+}
+
+#wpforms-panel-settings .wpforms-panel-content .wpforms-notification-header {
+	background-color: #f1f1f1;
+	padding: 10px 20px;
+	font-size: 16px;
+	margin: 0 0 20px 0;
+}
+
+#wpforms-panel-settings .wpforms-panel-content .wpforms-notification-delete {
+	background-color: transparent;
+	color: #fff;
+	cursor: pointer;
+	-webkit-appearance: none;
+	border: none;
+	font-size: 16px;
+	color: #d22222;
+	line-height: 1;
+	margin-top: -2px;
+	float: right;
+}
+
+
+#wpforms-panel-settings .wpforms-panel-content .wpforms-notification .wpforms-panel-field {
+	padding: 0 20px;
+}
