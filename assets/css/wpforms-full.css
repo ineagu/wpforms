@@ -81,7 +81,7 @@ div.wpforms-container-full .wpforms-form ul li {
 }
 
 div.wpforms-container-full .wpforms-form ul li {
-	margin-bottom: 5px !important;
+	margin-bottom: 25px !important;
 }
 
 div.wpforms-container-full .wpforms-form ul li:last-of-type {
@@ -89,7 +89,7 @@ div.wpforms-container-full .wpforms-form ul li:last-of-type {
 }
 
 div.wpforms-container-full .wpforms-form hr {
-	border-top: 1px solid #ccc;
+	border-top: 3px solid #ccc;
 	margin: 0.5em auto;
 }
 
@@ -104,7 +104,7 @@ div.wpforms-container-full .wpforms-form .wpforms-field-row.wpforms-field-medium
 }
 
 div.wpforms-container-full .wpforms-form textarea.wpforms-field-medium {
-	height: 120px;
+	height: 100px;
 }
 
 /* Field sizes - small */
